@@ -9,7 +9,7 @@ const PLP = () => {
   const fetchPokemons = useStore((state) => state.fetchPokemons);
   const pokemons = useStore((state) => state.pokemons);
 
-  const containerRef = useRef(null);
+  const containerRef = useRef(null);//used to point to the observing element
 
   useEffect(() => {
     fetchPokemons(apiURL); // Initial load of 10 pokemons
@@ -20,17 +20,17 @@ const PLP = () => {
   };
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
+    const observer = new IntersectionObserver(([entry]) => {//intersection observer
+      if (entry.isIntersecting) {//triggeres the function when the observing element is in focus
         loadMorePokemons();
       }
     });
 
-    if (containerRef.current) {
+    if (containerRef.current) {// if the last div exists? then observe
       observer.observe(containerRef.current);
     }
 
-    return () => {
+    return () => {//unmount the observer
       if (containerRef.current) {
         observer.unobserve(containerRef.current);
       }
@@ -47,7 +47,7 @@ const PLP = () => {
             <PokemonCard key={index} data={pokemon} id={index + 1} />
           ))}
         </div>
-        <div  ref={containerRef}>
+        <div ref={containerRef}>
         <p>Loading.. </p>
         </div>
       </div>
